@@ -1,0 +1,5 @@
+ lines (3 sloc) 20 Bytes
+target/
+.idea/
+*.iml
+src/main/resources/hibernate.cfg.xml
