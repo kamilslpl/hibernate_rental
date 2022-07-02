@@ -1,9 +1,6 @@
 package pl.sda.arppl4.hibernate.rental.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +20,14 @@ public class Car {
 
     private String nazwa;
     private String marka;
-    private TypNadwozia typ_nadwozia;
 
     private LocalDate localDate;
-    private int ilosc_pasazerow;
-    private Double pojemnosc_silnika;
+    private int iloscPasazerow;
+    private Double pojemnoscSilnika;
+    @Enumerated(EnumType.STRING)
+    private TypNadwozia typNadwozia;
+    @Enumerated(EnumType.STRING)
     private SkrzyniaBiegow skrzyniaBiegow;
+
 
 }

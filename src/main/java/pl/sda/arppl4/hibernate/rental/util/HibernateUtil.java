@@ -7,15 +7,9 @@ package pl.sda.arppl4.hibernate.rental.util;
         import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
-    public static final HibernateUtil INSTANCE = new HibernateUtil();
+    private static final SessionFactory sessionFactory;
 
-    public SessionFactory sessionFactory;
-
-    private HibernateUtil() {
-        loadConfiguration();
-    }
-
-    private void loadConfiguration() {
+    static {
         // Załadowanie "Registry" jako kolekcji parametrów konfiguracyjnych do rejestru.
         // Stworzenie obiektu zawierającego zestaw ustawień.
         StandardServiceRegistry standardServiceRegistry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
@@ -27,7 +21,7 @@ public class HibernateUtil {
         sessionFactory = metadata.getSessionFactoryBuilder().build();
     }
 
-    public SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 }
