@@ -3,6 +3,7 @@ import org.hibernate.SessionException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import pl.sda.arppl4.hibernate.rental.util.HibernateUtil;
+/*
 
 public class GenericDao<T> {
     public void dodaj(T dodawanyObiekt) {
@@ -74,4 +75,4 @@ public class GenericDao<T> {
             }
         }
     }
-}
+}*/

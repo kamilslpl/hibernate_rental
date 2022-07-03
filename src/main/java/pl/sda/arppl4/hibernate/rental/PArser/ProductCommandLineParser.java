@@ -1,10 +1,13 @@
 package pl.sda.arppl4.hibernate.rental.PArser;
 
 import pl.sda.arppl4.hibernate.rental.dao.CarDao;
+import pl.sda.arppl4.hibernate.rental.dao.CarRentalDao;
 import pl.sda.arppl4.hibernate.rental.model.Car;
+import pl.sda.arppl4.hibernate.rental.model.CarRental;
 import pl.sda.arppl4.hibernate.rental.model.SkrzyniaBiegow;
 import pl.sda.arppl4.hibernate.rental.model.TypNadwozia;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.time.DateTimeException;
@@ -18,10 +21,12 @@ import java.util.Optional;
 
         private final Scanner scanner;
         private final CarDao dao;
+        private final CarRentalDao daoCarRental;
 
-        public ProductCommandLineParser(Scanner scanner, CarDao dao) {
+        public ProductCommandLineParser(Scanner scanner, CarDao dao, CarRentalDao daoCarRental) {
             this.scanner = scanner;
             this.dao = dao;
+            this.daoCarRental = daoCarRental;
         }
 
         public void parse() {
@@ -38,9 +43,39 @@ import java.util.Optional;
                     handleDeleteCommand();
                 } else if (command.equalsIgnoreCase("edytuj")) {
                     handleUpdateCommand();
+                } else if (command.equalsIgnoreCase("dodaj wynajem")) {
+                    handleAddRentalCommand();
+
                 }
 
             } while (!command.equals("quit"));
+        }
+
+        private void handleAddRentalCommand() {
+            System.out.println("Podaj id car do edycji:");
+            Long id = scanner.nextLong();
+
+            Optional<Car> carOptional = dao.zwrocCar(id);
+            if (carOptional.isPresent()) {
+                Car car = carOptional.get();
+
+                System.out.println("Podaj imie:");
+                String imie = scanner.next();
+
+                System.out.println("Podaj nazwisko:");
+                String nazwisko = scanner.next();
+
+                LocalDateTime dataCzasuWynajmu = LocalDateTime.now();
+                System.out.println("Czas Wynajmu to: " +dataCzasuWynajmu);
+
+                CarRental carrental = new CarRental(imie,nazwisko, dataCzasuWynajmu, car);
+                daoCarRental.dodajCar();
+                System.out.println("Car dodany" + carrental);
+
+            } else {
+//                System.out.println("Car nie znaleziono");
+            }
+
         }
 
         private void handleUpdateCommand() {
@@ -145,7 +180,7 @@ import java.util.Optional;
 
             SkrzyniaBiegow skrzyniaBiegow = loadSkrzyniaBiegowFromUser();
 
-            Car car = new Car(null,nazwa,marka,localDate,ilosc_pasazerow,pojemnoscSilnika,typNadwozia,skrzyniaBiegow);
+            Car car = new Car(nazwa,marka,localDate,ilosc_pasazerow,pojemnoscSilnika,typNadwozia,skrzyniaBiegow);
             dao.dodajCar(car);
         }
 
